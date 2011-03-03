@@ -1,0 +1,20 @@
+Symfohub
+--------
+
+Developed with symfony 1.4. All installation process requires basic knowledge of symfony 1.4. 
+Also you need register your app in order to use GitHub OAuth at https://github.com/account/applications/new
+Register at Disqus too and enter all configuration values in apps/frontend/config/app.yml
+
+Initial repositories can be added with fixtures.
+To get data from github run
+
+symfony symfohub:repositories/refresh
+
+All css was generedated using SASS interpreter and Compass metaframework. Please use web/src files to change design.
+
+Copyright issues
+----------------
+
+You are always welcome to create your KohanaHub, SolarHub, ZendHub, YiiHyb, etc.
+You can use current design on your site if you change logo and color gamma. 
+Please, don't use this code to run your own symfohub :) (collection of Symfony repositories)
