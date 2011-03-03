@@ -1,0 +1,119 @@
+Repository:
+  actAs:
+    Timestampable: ~
+    Taggable: ~
+    Rattable:
+      max_rate:      4    # 2,10 etc. any integer number you want (more than 20 is a bad idea, work with rounding instead)
+      rounding_rate: 0.1    # or 0.1, 0.2 etc.
+      user:
+        class: doGitHubUser
+        type: bigint
+        size: 20
+    Searchable:
+      fields: [name, description, tags]
+  columns:
+    # from github
+    name: { type: string(255) }
+    owner: { type: string(255) }
+    source: { type: string(255) }
+    parent: { type: string(255) }
+    description: { type: clob }
+    forks: { type: integer, default: 0 }
+    watchers: { type: integer, default: 0 }
+    fork: { type: boolean, default: false }
+    private: { type: boolean, default: false }
+    homepage: { type: string(1000) }
+    has_wiki: { type: boolean, default: false }
+    has_issues: { type: boolean, default: false }
+    has_downloads: { type: boolean, default: false }
+    inner_rate: { type: integer }
+    # ours
+    type: { type: enum, values: [snippet, bundle, plugin, application, tool] }
+    # user status
+    works: { type: enum, values: [yes, patch, no, old] }
+    percent: { type: integer }
+    total: { type: integer }
+    is_verified: { type: boolean, default: false }
+    is_recomended: { type: boolean, default: false }
+    created_at: { type: timestamp }
+    updated_at: { type: timestamp }
+  relations:
+    Owner: { class: doGitHubUser, local: owner, foreign: username, foreignAlias: Repositories }
+  indexes:
+    innner_rate:
+      fields: [inner_rate]
+
+
+Requirement:
+  columns:
+    repository_id: {type: integer}
+    type: { type: enum, values: [symfony, doctrine, propel, view, nosql, javascript, license] }
+    value: { type: string(255) }
+  relations:
+    Repository:
+      foreignAlias: Requirements
+      local: repository_id
+      foreign: id
+      type: one
+      foreignType: many
+
+Documentation:
+  columns:
+    repository_id: {type: integer}
+    text: { type: clob }
+    html: { type: clob }
+    text_hash: { type: string(32), notnull: true }
+  relations:
+    Repository:
+      foreignAlias: Documentation
+      local: repository_id
+      foreign: id
+      type: one
+      foreignType: one
+
+Post:
+  actAs:
+    Timestampable: ~
+  columns:
+    repository_id: { type: integer, default: null }
+    user_id: { type: integer }
+    title: { type: string(255) }
+    body: { type: clob }
+    html: { type: clob }
+    is_recommendation: { type: boolean }
+  relations:
+    Repository:
+      foreignAlias: Posts
+      local: repository_id
+      foreign: id
+      type: one
+      foreignType: many
+    User:
+      class: doGitHubUser
+      local: user_id
+      foreign: id
+      type: one
+      foreignType: many
+
+Assertion:
+  actAs:
+    Timestampable: ~
+  columns:
+    repository_id: { type: integer, default: null }
+    user_id: { type: integer, default: null }
+    works: { type: enum, values: [yes, patch, no, old] }
+    comment: { type: string(1000) }
+    body: {type: string(255)}
+  relations:
+    Repository:
+      foreignAlias: Posts
+      local: repository_id
+      foreign: id
+      type: one
+      foreignType: many
+    User:
+      class: doGitHubUser
+      local: user_id
+      foreign: id
+      type: one
+      foreignType: many

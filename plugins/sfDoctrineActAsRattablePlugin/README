@@ -1,0 +1,172 @@
+# sfDoctrineActAsRattablePlugin #
+
+## Introduction ##
+This plugin permits to attach rates to Doctrine objects
+
+You can discuss about this plugin on the [google group sfDoctrineActAsRattable](http://groups.google.com/group/sfdoctrineactasrattableplugin)
+
+Full (and up to date) documentation available on the [symfony wiki](http://trac.symfony-project.org/wiki/SfDoctrineActAsRattablePlugin)
+
+### Features ###
+
+ * add/remove ratings
+ * manage multiple ratings
+ * get average rating
+ * get commented ratings
+ * be notified when an object is rated
+ 
+### How it works ###
+
+Giving Rattable behavior to an object the same as [Doctrine I18n](http://www.doctrine-project.org/documentation/manual/1_1/en/behaviors#core-behaviors:i18n)
+
+It create an object_rate table with how many column as criterias OR default one : rate
+
+Example :
+
+    hotel_room:
+      actAs: 
+        Rattable:
+          criterias: [clean_state, receptionist, equipment]
+          max_rate: 5
+          rounding_rate: 1.0
+          
+Will create 2 tables:
+
+     1 hotel_room
+     1 hotel_room_rate, with columns:
+         clean_state
+         reception
+         equipment
+         comment
+         user_id # foreignKey to sfGuardUser if exists
+
+## Installation ##
+
+### Symfony way ###
+
+ * go to your project's root
+ * Install the plugin: 
+        
+        ./symfony plugin-install http://svn.symfony-project.com/plugins/sfDoctrineActAsRattblePlugin/branches/1.2
+
+### SVN way ###
+
+ * from the terminal, go to your plugin directory:
+ * enter
+ 
+        svn pe svn:externals .
+ 
+ * write a line
+ 
+        sfDoctrineActAsRattblePlugin http://svn.symfony-project.com/plugins/sfDoctrineActAsRattblePlugin/branches/1.2
+ 
+ * close the editor
+ * do a ``svn update`` an that's all
+
+## Configuration ##
+
+ * configure your object :
+
+        my_object:
+          actAs:
+            Rattable:
+              criterias:     rate # or [clean_state, receptionist, equipment] only if you wanna rate specifics parts
+              max_rate:      5    # 2,10 etc. any integer number you want (more than 20 is a bad idea, work with rounding instead)
+              rounding_rate: 1.0  # or 0.1, 0.2 etc.
+              with_comment:  true # false
+              user:                 # if you dont want to user a user, set it to false
+                class: sfGuardUser
+                size:  4
+                type:  integer
+
+ * rebuild the model: 
+
+        ./symfony doctrine-build-all
+
+ * clear cache:
+
+        ./symfony cc
+
+## API ##
+
+The plugin implements the following methods to the object:
+
+ * getRatings()
+ * getRating()
+ * getRaters() : only if user is true
+ * getRaterRatings()  : only if user is true
+ * addRate(RategObject $rateObject)
+ * removeRatings()
+ * getRatesQuery()
+
+## Events notifications types ##
+
+ * rate.add     notify
+ * rate.remove  notify
+
+## Helpers ##
+
+### rating($object, $rating = null, $options = array()) ###
+
+     Return a rating tag based on a personnalized microformat hReview
+     
+     <div class="rating">
+       <p class="criteria">
+         rating_name :
+         <span class="rating" >value</span>/<span class="max_rate">max_rate</span>
+       </p>
+       ...
+       <p>rated by user_id</p>
+       <p class="dtreviewed">formated_date</p>
+     </div>
+     
+     custom_user_helper get User as parameter
+     
+     @param <type> $object
+     @param <type> $rating
+     @param array $options (custom_user_helper, with_date, with_user)
+     @return string div
+
+### ratings($object, $ratings = null, $options = array()) ###
+    
+     
+     Return a rating list
+     
+     <div class="ratings">
+       rating div @see rating
+     </div>
+     
+     @param Rattable $object
+     @param array/rattable object $ratings
+     @return string div
+     
+
+## Examples ##
+
+You can checkout the dev environnment to and see comment and blog modules for examples
+
+## Todo ##
+ * notification management
+ * API functions
+   * hasBeenRated(); # session rating
+   * hasBeenRatedByUser($user_id)
+   * getUserRating()
+   * removeUserRating($user_id)
+ * form creation
+ * form embending
+ * add icons possibility for ratings types
+
+## Unit testing ##
+The plugin has been unit-tested, perhaps not fully (I'm a newbie in unit tests). The tests are located in [developpment branch](http://svn.symfony-project.com/plugins/sfDoctrineActAsRattablePlugin/branches/developpment_env/test/unit/sfDoctrineActAsRattableTest.php).
+
+## Side notes ##
+I won't release pear packages, if someone is interested in managing them, let met know and I will add you as package manager.
+
+## License and credits ##
+This plugin has been created by [Mickael Kurmann](http://www.vieuxsteak.ch/) and is licensed under the MIT license.
+
+I took my inspiration from :
+
+ * [sfPropelActasRatableBehaviorPlugin](http://www.symfony-project.org/plugins/sfPropelActAsRatableBehaviorPlugin)
+ * [Unobtrusive AJAX Star Rating bar from Masuga](http://www.masugadesign.com/the-lab/scripts/unobtrusive-ajax-star-rating-bar/)
+ * [jQuery Star Rating plugin](http://www.fyneworks.com/jquery/star-rating/#tab-Overview)

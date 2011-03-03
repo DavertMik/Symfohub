@@ -1,0 +1,11 @@
+do_github_login:
+  url: /login
+  param: { module: doGitHubAuth, action: login }
+
+do_github_auth:
+  url:   /github_auth
+  param: { module: doGitHubAuth, action: authorized }
+
+do_github_logout:
+  url: /logout
+  param: { module: doGitHubAuth, action: logout }

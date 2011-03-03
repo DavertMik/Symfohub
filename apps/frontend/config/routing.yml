@@ -1,0 +1,101 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/10-Routing
+repository_show:
+  class: sfDoctrineRoute
+  url:  /repo/:name
+  param: { module: repository, action: show }
+  options:
+    type: object
+    model: Repository
+    column: name
+
+repository_doc:
+  class: sfDoctrineRoute
+  url:  /repo/:name/documentation
+  param: { module: repository, action: doc }
+  options:
+    type: object
+    model: Repository
+    column: name
+
+repository_blog:
+  class: sfDoctrineRoute
+  url:  /repo/:name/blog
+  param: { module: repository, action: blog }
+  options:
+    type: object
+    model: Repository
+    column: name
+
+repository_assertion:
+  class: sfDoctrineRoute
+  url:  /repo/:name/assertions
+  param: { module: repository, action: assertions  }
+  options:
+    type: object
+    model: Repository
+    column: name
+
+repository:
+  class: sfDoctrineRouteCollection
+  options:
+    with_show: false
+    model: Repository
+    collection_actions: { tag: get, check: [post] }
+    object_actions: { post: get, rate: post }
+
+plugins:
+  url: /plugins
+  param: { module: repository, action: plugins }
+
+apps:
+  url: /apps
+  param: { module: repository, action: apps }
+
+plugins_tag:
+  url: /plugins/tag
+  param: { module: repository, action: tag, type: plugin }
+
+plugins_search:
+  url: /plugins/search
+  param: { module: repository, action: search, type: plugin }
+
+bundles:
+  url: /bundles
+  param: { module: repository, action: bundles }
+
+bundles_tag:
+  url: /bundles/tag
+  param: { module: repository, action: tag, type: bundle }
+
+bundles_search:
+  url: /bundles/search
+  param: { module: repository, action: search, type: bundle }
+
+blog:
+  class: sfDoctrineRouteCollection
+  options:
+    model: Blog
+
+assertion:
+  class: sfDoctrineRouteCollection
+  options:
+    model: Assertion    
+
+search:
+  url: /search
+  param: { module: repository, action: search } 
+
+# default rules
+homepage:
+  url:   /
+  param: { module: main, action: index }
+
+# generic rules
+# please, remove them by adding more specific rules
+default_index:
+  url:   /:module
+  param: { action: index }
+
+default:
+  url:   /:module/:action/*

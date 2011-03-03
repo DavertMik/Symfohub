@@ -1,0 +1,14 @@
+Repository:
+  diem:
+    url: https://github.com/diem-project/diem
+    type: application
+
+  chess:
+    url: https://github.com/ornicar/lichess
+    type: application
+
+  capifony:
+    url: https://github.com/everzet/capifony
+    type: tool
+
+

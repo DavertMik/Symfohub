@@ -1,0 +1,33 @@
+TwitterTweet:
+  tableName: twitter_tweets
+  actAs: 
+    Timestampable:
+      created:
+        name: fetched_at
+      updated:
+        disabled: true
+
+  columns:
+    keyword: { type: string(255), notnull: true }
+    screen_name: { type: string(255), notnull: true }
+    avatar: {type: string(255) }
+    user_id: { type: string(255), notnull: true }
+    native_id: { type: string(255), primary: true }
+    parsed_text: { type: string(255) }
+    created_at: { type: datetime, notnull: true }
+  indexes:
+    keyword:
+      fields: [keyword]
+    identification:
+      fields: [screen_name,user_id]
+
+TwitterTweetLastFetch:
+  tableName: twitter_tweet_last_fetches
+  columns:
+    keyword: { type: string(255), notnull: true }
+    screen_name: { type: string(255) }
+    user_id: { type: string(255) }
+    fetched_at: { type: datetime }
+  indexes:
+    keyword:
+      fields: [keyword]

@@ -1,0 +1,15 @@
+pre {
+	background: #E4E8EF;
+}
+.de1, .de2 {font-weight:normal;background:transparent;color:#000; padding-left: 5px;}
+.kw1 {color: #a1a100;}
+.kw2 {color: #000; font-weight: bold;}
+.kw3 {color: #0066CC;}
+.kw4 {color: #f63333;}
+.co1, .co2, .coMULTI {color: #808080;}
+.es0 {color: #000033; font-weight: bold;}
+.br0 {color: #66cc66;}
+.st0, .st_sh {color: #ff0000;}
+.nu0 {color: #ff33ff;}
+.me0 {color: #006600;}
+.me1 {color: #006600;}

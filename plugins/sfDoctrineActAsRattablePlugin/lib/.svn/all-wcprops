@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/!svn/ver/30347/plugins/sfDoctrineActAsRattablePlugin/branches/1.4/lib
+END
+RattableTemplate.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/!svn/ver/30340/plugins/sfDoctrineActAsRattablePlugin/branches/1.4/lib/RattableTemplate.class.php
+END
+Rattable.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/!svn/ver/30347/plugins/sfDoctrineActAsRattablePlugin/branches/1.4/lib/Rattable.class.php
+END
+RattableListener.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/!svn/ver/30340/plugins/sfDoctrineActAsRattablePlugin/branches/1.4/lib/RattableListener.class.php
+END

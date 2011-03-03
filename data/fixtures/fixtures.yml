@@ -1,0 +1,53 @@
+Repository:
+  doAuth:
+    name: doAuthPlugin
+    owner: DavertMik
+    description: 'Symfony new authentication / user managemant system'
+    watchers: 17
+    forks: 5
+    type: bundle
+    is_verified: true
+
+Requirement:
+  doAuth_orm:
+    Repository: doAuth
+    type: doctrine
+    value: '1.2'
+
+  doAuth_orm2:
+    Repository: doAuth
+    type: propel
+    value: '1.5'
+
+  doAuth_license:
+    Repository: doAuth
+    type: license
+    value: MIT
+
+  doAuth_symfony:
+    Repository: doAuth
+    type: symfony
+    value: '1.4'
+
+  doAuth_symfony2:
+    Repository: doAuth
+    type: symfony
+    value: '1.3'
+
+Documentation:
+  doAuth_readme:
+    Repository: doAuth
+    text: ''
+
+doGitHubUser:
+  davert:
+    username: DavertMik
+    email: davert@ukr.net
+    is_admin: true
+
+Post:
+  Post:
+    User: davert
+    Repository: doAuth
+    title: Usage
+    body: ''

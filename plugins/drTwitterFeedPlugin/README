@@ -1,0 +1,77 @@
+# drTwitterFeedPlugin #
+
+The ``drTwitterFeedPlugin`` provides an interface for the Twitter API (see [documentation](http://apiwiki.twitter.com/Twitter-API-Documentation)). In the current release the only feed which can be fetched is the ``user_timeline`` status feed. Other status feeds can be easily added by extending the ``TwitterStatusFeed`` or ``TwitterStatusFeedCachedDoctrine`` class (see below). 
+The plugin provides a component which makes it really easy to display (part of a) Twitter feed on a website.
+
+## Installation ##
+
+Once the plugin files have been copied to your project's plugins directory, build the model, form and filter classes and the SQL for the plugin's schema by running the following command:
+
+    ./symfony doctrine:build --all-classes --sql
+
+Then create the tables ``twitter_tweets`` and ``twitter_tweet_last_fetches`` (see ``/data/sql/schema.sql``)
+
+Open the file ``/config/ProjectConfiguration.class.php`` and enable the plugin:
+
+    [php]
+    class ProjectConfiguration extends sfProjectConfiguration
+    {
+      public function setup()
+      {
+        $this->enablePlugins(array(
+          ...
+          'drTwitterFeedPlugin',
+        ));
+      }
+    }
+
+Finally, run 
+
+    ./symfony cc
+
+## Usage ##
+
+The simplest way to display a list of tweets on your site's page:
+
+    [php]
+    include_component('drTwitterFeed', 'StatusUserTimeline', array('query_parameters' => array('screen_name' => 'driebit')));
+
+If you wish to use the built-in component, don't forget to enable the module ``drTwitterFeed`` in your ``app.yml`` file:
+
+    all:
+      .settings:
+        ...
+        enabled_modules [..., drTwitterFeed]
+        
+It is quite easy to create a custom component for your list of tweets, for example if you wish to make the number of tweets or the refresh time configurable.
+ 
+Add the following lines to your ``app.yml`` file:
+
+    all:
+      ...
+      twitter_feed:
+        refresh_time_in_seconds: 60 # update every minute
+        limit: 10 # limit the list to the 10 most recent tweets
+
+In your custom component you may use the following lines of code: 
+
+    [php]
+    $query = new TwitterStatusUserTimelineQuery();
+    $query->setIncludeRetweets(true);
+    $query->setScreenName($this->screen_name);
+    
+    $feed = new TwitterStatusCachedFeedDoctrine($query);    
+    $feed->setRefreshTime(sfConfig::get('app_twitter_feed_refresh_time_in_seconds'));
+    
+    $feed->fetchTweets();
+        
+    $limit = sfConfig::get('app_twitter_feed_limit');
+    $this->tweets = $feed->getTweets($limit); 
+    
+## Extending ##
+
+Based on the [Twitter API documentation](http://apiwiki.twitter.com/Twitter-API-Documentation), it should be fairly easy to extend the query classes to fetch other kinds of Twitter status feeds.
+You may accomplish this by extending from the ``TwitterStatusQuery`` class.
+
+If you have created a new query class or have other useful extensions or suggestions, please contact me by sending an e-mail to matthias <<at>> driebit.nl.
+

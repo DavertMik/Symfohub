@@ -1,0 +1,1 @@
+rsync -av --chmod=Dugo+rx,u+w,Fu+rw,g+r,o+r --progress --exclude-from=/cygdrive/c/webservers/home/symfohub/config/rsync_exclude.txt /cygdrive/c/webservers/home/symfohub/ -e ssh simfohub@symfohub.com:/home/simfohub/

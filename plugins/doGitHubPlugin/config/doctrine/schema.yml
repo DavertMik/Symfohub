@@ -1,0 +1,28 @@
+doGitHubUser:
+  columns:
+    username: string(255)
+    email: string(255)
+  indexes:
+    unique_username:
+      fields: [username]
+      type: unique
+
+
+doGitHubRemember:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  actAs: [Timestampable]
+  columns:
+    remember_key: string(32)
+    user_id:      integer
+    access_token: string(50)
+  relations:
+    doGitHubUser:
+      local: user_id
+      foreignAlias: RememberKeys
+      foreignType: one
+      onDelete: CASCADE
+
+
