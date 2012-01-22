@@ -18,14 +18,12 @@ abstract class BasedoGitHubUserForm extends BaseFormDoctrine
       'id'       => new sfWidgetFormInputHidden(),
       'username' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Repositories'), 'add_empty' => true)),
       'email'    => new sfWidgetFormInputText(),
-      'is_admin' => new sfWidgetFormInputCheckbox(),
     ));
 
     $this->setValidators(array(
       'id'       => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
       'username' => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Repositories'), 'required' => false)),
       'email'    => new sfValidatorString(array('max_length' => 255, 'required' => false)),
-      'is_admin' => new sfValidatorBoolean(array('required' => false)),
     ));
 
     $this->validatorSchema->setPostValidator(
