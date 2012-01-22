@@ -1,4 +1,2 @@
-config/symfohub.yml:
+config/github.yml:
   class: sfDefineEnvironmentConfigHandler
-#  param:
-#    prefix: thumbnailing_
