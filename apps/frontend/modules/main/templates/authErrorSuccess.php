@@ -2,7 +2,7 @@
 
 <p>
   It's possible that GitHub webservce is busy now. Please,
-  <a href="<?php echo url_for('@do_github_login'); ?>"><strong>retry</strong></a> and login to Symfoyub.
+  <a href="<?php echo url_for('@do_github_login'); ?>"><strong>retry</strong></a> and login to Symfohub.
   If error still here, please try again later.
 
 

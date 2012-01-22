@@ -11,7 +11,7 @@ class doGitHubSecurityUser extends sfBasicSecurityUser {
   protected $user = null;
 
   /**
-   * Initializes the sfGuardSecurityUser object.
+   * Initializes the doGitHubSecurityUser object.
    *
    * @param sfEventDispatcher $dispatcher The event dispatcher object
    * @param sfStorage $storage The session storage object
