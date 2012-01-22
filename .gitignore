@@ -1,5 +1,5 @@
-.idea
+.idea/
 
-cache
-log
+cache/
+log/
 config/databases.yml
