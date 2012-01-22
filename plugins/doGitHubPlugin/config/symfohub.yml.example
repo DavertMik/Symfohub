@@ -1,0 +1,6 @@
+# register your app at https://github.com/account/applications/new
+all:
+  doGitHubPlugin:
+    client_id:     '<your client_id here>'
+    client_secret: '<your client_secret here>'
+    redirect_url:  'http://<your site here>/github_auth'

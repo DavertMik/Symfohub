@@ -168,9 +168,7 @@ abstract class BaseRepository extends sfDoctrineRecord
               1 => 'patch',
               2 => 'no',
               3 => 'old',
-              4 => 'unknown',
              ),
-             'default' => 'unknown',
              ));
         $this->hasColumn('percent', 'integer', null, array(
              'type' => 'integer',
@@ -180,7 +178,7 @@ abstract class BaseRepository extends sfDoctrineRecord
              ));
         $this->hasColumn('is_verified', 'boolean', null, array(
              'type' => 'boolean',
-             'default' => true,
+             'default' => false,
              ));
         $this->hasColumn('is_recomended', 'boolean', null, array(
              'type' => 'boolean',
@@ -221,6 +219,7 @@ abstract class BaseRepository extends sfDoctrineRecord
              'local' => 'id',
              'foreign' => 'repository_id'));
 
+        $timestampable0 = new Doctrine_Template_Timestampable();
         $taggable0 = new Taggable();
         $rattable0 = new Rattable(array(
              'max_rate' => 4,
@@ -240,6 +239,7 @@ abstract class BaseRepository extends sfDoctrineRecord
               2 => 'tags',
              ),
              ));
+        $this->actAs($timestampable0);
         $this->actAs($taggable0);
         $this->actAs($rattable0);
         $this->actAs($searchable0);
