@@ -13,8 +13,8 @@ class doGitHubAuthActions extends sfActions {
   public function executeLogin(sfWebRequest $request) {
     $this->getUser()->setAttribute('doGithub_redirect_path', $request->getReferer());
     $url = 'https://github.com/login/oauth/authorize'
-          .'?client_id='.sfConfig::get('app_doGitHubPlugin_client_id')
-          .'&redirect_uri='.sfConfig::get('app_doGitHubPlugin_redirect_url');
+          .'?client_id='.sfConfig::get('doGitHubPlugin_client_id')
+          .'&redirect_uri='.sfConfig::get('doGitHubPlugin_redirect_url');
     $this->redirect($url);
   }
 
@@ -27,15 +27,17 @@ class doGitHubAuthActions extends sfActions {
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, array(
-        'client_id' => sfConfig::get('app_doGitHubPlugin_client_id'),
-        'redirect_uri' => sfConfig::get('app_doGitHubPlugin_redirect_url'),
-        'client_secret' => sfConfig::get('app_doGitHubPlugin_client_secret'),
+        'client_id' => sfConfig::get('doGitHubPlugin_client_id'),
+        'redirect_uri' => sfConfig::get('doGitHubPlugin_redirect_url'),
+        'client_secret' => sfConfig::get('doGitHubPlugin_client_secret'),
         'code' => $code,
     ));
     $response = curl_exec($ch);
     curl_close($ch);
 
-    if (preg_match('/^access_token=([0-9a-f]+)$/u', $response, $matches)) {
+//    echo $response; die();
+
+    if (preg_match('/access_token=([0-9a-f]+)(&|$)/u', $response, $matches)) {
         $token = $matches[1];
         $this->getUser()->signIn($token);
         $this->redirect($this->getUser()->getAttribute('doGithub_redirect_path', '@homepage'));

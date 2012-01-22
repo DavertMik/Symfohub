@@ -2,6 +2,7 @@ doGitHubUser:
   columns:
     username: string(255)
     email: string(255)
+    is_admin: { type:boolean, default:false }
   indexes:
     unique_username:
       fields: [username]

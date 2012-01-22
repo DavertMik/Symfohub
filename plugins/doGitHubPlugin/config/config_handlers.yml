@@ -1,0 +1,4 @@
+config/symfohub.yml:
+  class: sfDefineEnvironmentConfigHandler
+#  param:
+#    prefix: thumbnailing_

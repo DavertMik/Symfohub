@@ -48,6 +48,7 @@ abstract class BasedoGitHubUser extends sfDoctrineRecord
              ));
         $this->hasColumn('is_admin', 'boolean', null, array(
              'type' => 'boolean',
+             'default' => false,
              ));
 
 
