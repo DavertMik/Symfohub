@@ -7,7 +7,7 @@ class doGitHubPluginConfiguration extends sfPluginConfiguration {
    */
   public function initialize() {
       if($this->configuration instanceof sfApplicationConfiguration) {
-          require_once($this->configuration->getConfigCache()->checkConfig('config/symfohub.yml'));
+          require_once($this->configuration->getConfigCache()->checkConfig('config/github.yml'));
       }
   }
 }

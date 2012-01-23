@@ -1,0 +1,5 @@
+all:
+  doGitHubPlugin:
+    client_id:     '7526fb9df2ff5288d4d4'
+    client_secret: '455cc9e3312b4ebb1176ca4edcbab0b85dcd536a'
+    redirect_url:  'http://symfohub.local/frontend_dev.php/github_auth'
