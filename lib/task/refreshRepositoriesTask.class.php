@@ -43,7 +43,6 @@ class refreshDataTask extends sfBaseTask
 
                 if ($readme) {
                     $readmeText = base64_decode($readme['content']);
-                    echo $readmeText;
 
                     $hash = md5($readmeText);
                     if ($documentation = $repo->Documentation) {
