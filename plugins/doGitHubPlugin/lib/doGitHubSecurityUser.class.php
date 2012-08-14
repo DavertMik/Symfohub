@@ -1,32 +1,24 @@
 <?php
-require_once dirname(__FILE__).'/vendor/php-github-api/phpGitHubApi.php';
 
 class doGitHubSecurityUser extends sfBasicSecurityUser {
 
   /**
-   * @var phpGitHubApi
+   * @var \Github\Client
    */
-  protected $api = null;
+  protected $client = null;
 
   protected $user = null;
 
-  /**
-   * Initializes the doGitHubSecurityUser object.
-   *
-   * @param sfEventDispatcher $dispatcher The event dispatcher object
-   * @param sfStorage $storage The session storage object
-   * @param array $options An array of options
-   */
   public function initialize(sfEventDispatcher $dispatcher, sfStorage $storage, $options = array()) {
     parent::initialize($dispatcher, $storage, $options);
 
-    $this->api = new phpGitHubApi();
+    $this->client = new \Github\Client();
 
     if ($this->isAuthenticated()) {
-      $this->api->authenticate(
+      $this->client->authenticate(
         null,
         $this->getAttribute('access_token', null, 'doGitHubUser'),
-        phpGitHubApi::AUTH_OAUTH  
+          \Github\Client::AUTH_HTTP_TOKEN
       );
     }
     else {
@@ -45,8 +37,8 @@ class doGitHubSecurityUser extends sfBasicSecurityUser {
    */
   public function signIn($access_token, $remember = false, $con = null) {
 
-    $this->api->authenticate(null, $access_token, phpGitHubApi::AUTH_OAUTH);
-    $info = $this->api->getUserApi()->show('');
+    $this->client->authenticate(null, $access_token, \Github\Client::AUTH_HTTP_TOKEN);
+    $info = $this->client->api('current_user')->show();
     $login = $info['login'];
     if (!($user = Doctrine::getTable('doGitHubUser')->findOneByUsername($login))) {
         $user = new doGitHubUser();
@@ -98,17 +90,12 @@ class doGitHubSecurityUser extends sfBasicSecurityUser {
   public function signOut() {
     $this->getAttributeHolder()->removeNamespace('doGitHubUser');
     $this->user = null;
-    $this->api->deAuthenticate();
+    $this->client = new \Github\Client();
     $this->setAuthenticated(false);
     $remember_cookie = sfConfig::get('app_do_github_plugin_remember_cookie_name', 'sfRemember');
     sfContext::getInstance()->getResponse()->setCookie($remember_cookie, '', -1);
   }
 
-  /**
-   * Returns the related doGitHubUser.
-   *
-   * @return doGitHubUser
-   */
   public function getGitHubUser() {
     if (!$this->user && ($id = $this->getAttribute('id', null, 'doGitHubUser'))) {
       $this->user = Doctrine::getTable('doGitHubUser')->find($id);
@@ -136,10 +123,10 @@ class doGitHubSecurityUser extends sfBasicSecurityUser {
   /**
    * Returns GitHub API object
    *
-   * @return phpGitHubApi
+   * @return \Github\Client
    */
-  public function getApi() {
-      return $this->api;
+  public function getGithubClient() {
+      return $this->client;
   }
 
 }
