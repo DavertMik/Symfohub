@@ -39,9 +39,11 @@ class refreshDataTask extends sfBaseTask
                 $repo->created_at = $info['created_at'];
                 $repo->updated_at = $info['pushed_at'];
 
-                $readme = $client->api('repo')->readme($repo->owner, $repo->name);
+                $readme = $client->get('repos/'.urlencode($repo->owner).'/'.urlencode($repo->name).'/readme');
+
                 if ($readme) {
                     $readmeText = base64_decode($readme['content']);
+                    echo $readmeText;
 
                     $hash = md5($readmeText);
                     if ($documentation = $repo->Documentation) {

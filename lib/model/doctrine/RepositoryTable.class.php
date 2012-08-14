@@ -63,8 +63,7 @@ class RepositoryTable extends Doctrine_Table
             $repo->type = 'bundle';
         }
 
-
-        $readme = $gitHub->api('repo')->readme($ownerName, $name);
+        $readme = $gitHub->get('repos/'.urlencode($ownerName).'/'.urlencode($name).'/readme');
         if ($readme) {
             $readmeText = base64_decode($readme['content']);
 
