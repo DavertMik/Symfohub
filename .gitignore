@@ -3,4 +3,9 @@
 cache/
 log/
 config/databases.yml
-apps/frontend/config/symfohub.yml
+apps/frontend/config/github.yml
+
+vendor/
+composer.lock
+composer.phar
+
